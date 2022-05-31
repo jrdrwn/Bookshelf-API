@@ -1,13 +1,17 @@
 {
     "name": "bookshelf-api",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "description": "Sebuah RESTfull API yang bertujuan untuk mengelola buku",
-    "main": "src/index.js",
-    "scripts": {},
+    "main": "src/server.js",
+    "scripts": {
+        "dev": "nodemon",
+        "start": "node src/server.js"
+    },
     "keywords": [
         "api"
     ],
     "author": "Jordi Irawan",
+    "repository": "https://github.com/jrdrwn/Bookshelf-API.git",
     "license": "MIT",
     "devDependencies": {
         "eslint": "^8.16.0",

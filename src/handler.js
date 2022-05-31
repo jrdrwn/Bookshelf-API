@@ -68,12 +68,37 @@ exports.addBookHandler = (request, h) => {
         .code(500);
 };
 
-exports.getAllBooksHandler = () => ({
-    status: 'success',
-    data: {
-        books: books.map(({ id, name, publisher }) => ({ id, name, publisher })),
-    },
-});
+exports.getAllBooksHandler = (request) => {
+    const { name, reading, finished } = request.query;
+
+    if (name || reading || finished) {
+        let filteredBooks = [...books];
+        if (name) {
+            filteredBooks = filteredBooks.filter((book) => book.name.match(new RegExp(name, 'i')));
+        }
+        if (reading === '0' || reading === '1') {
+            filteredBooks = filteredBooks.filter((book) => book.reading === Boolean(+reading));
+        }
+        if (finished === '0' || finished === '1') {
+            filteredBooks = filteredBooks.filter((book) => book.finished === Boolean(+finished));
+        }
+        return {
+            status: 'success',
+            data: {
+                // eslint-disable-next-line no-shadow
+                books: filteredBooks.map(({ id, name, publisher }) => ({ id, name, publisher })),
+            },
+        };
+    }
+
+    return {
+        status: 'success',
+        data: {
+            // eslint-disable-next-line no-shadow
+            books: books.map(({ id, name, publisher }) => ({ id, name, publisher })),
+        },
+    };
+};
 
 exports.getBookByIdHandler = (request, h) => {
     const { id } = request.params;
